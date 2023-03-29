@@ -71,7 +71,43 @@ inquirer.prompt([
                 message: "What is the new employee manager's id?",
                 name: "new_employee_manager_id",
             }
-        ])
+        ]);
+    } else if (response.todos === 'Add Role') {
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: "What is the new role's id?",
+                name: "new_role_id",
+            },
+            {
+                type: 'input',
+                message: "What is the new role's title?",
+                name: "new_role_title",
+            },
+            {
+                type: 'input',
+                message: "What is the new role's salary?",
+                name: "new_role_salary",
+            },
+            {
+                type: 'input',
+                message: "What is the new role's department id?",
+                name: "new_role_department_id",
+            }
+        ]);
+    } else if (response.todos === 'Add Department') {
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: "What is the new department's id?",
+                name: "new_department_id",
+            },
+            {
+                type: 'input',
+                message: "What is the new department's name?",
+                name: "new_department_name",
+            }
+        ]);
     }
  });
  
