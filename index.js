@@ -34,8 +34,16 @@ inquirer.prompt([
 ])
 .then((response) => {
     if(response.todos === 'View All Employees') {
+        db.query('SELECT * FROM employee', function (err, results) {
+            console.table(results);
+        });
+    } else if (response.todos === 'View All Roles') {
+        db.query('SELECT * FROM role', function (err, results) {
+            console.table(results);
+        });
+    } else if (response.todos === 'View All Departments') {
         db.query('SELECT * FROM department', function (err, results) {
             console.table(results);
         });
     }
-});
+ });
