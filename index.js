@@ -16,7 +16,6 @@ const db = mysql.createConnection(
         password: 'Root',
         database: 'company_db'
     },
-    console.log(`Connected to the classlist_db database.`)
 );
 
 app.use((req, res) => {
@@ -44,6 +43,35 @@ inquirer.prompt([
     } else if (response.todos === 'View All Departments') {
         db.query('SELECT * FROM department', function (err, results) {
             console.table(results);
-        });
+        }); 
+    } else if (response.todos === 'Add Employee') {
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: "What is the new employee's id?",
+                name: "new_employee_id",
+            },
+            {
+                type: 'input',
+                message: "What is the new employee's first name?",
+                name: "new_employee_first_name",
+            },
+            {
+                type: 'input',
+                message: "What is the new employee's last name?",
+                name: "employee_last_name",
+            },
+            {
+                type: 'input',
+                message: "What is the new employee's role id?",
+                name: "new_employee_role_id",
+            },
+            {
+                type: 'input',
+                message: "What is the new employee manager's id?",
+                name: "new_employee_manager_id",
+            }
+        ])
     }
  });
+ 
