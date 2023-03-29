@@ -16,6 +16,7 @@ const db = mysql.createConnection(
         password: 'Root',
         database: 'company_db'
     },
+    console.log(`Connected to the classlist_db database.`)
 );
 
 app.use((req, res) => {
@@ -23,91 +24,28 @@ app.use((req, res) => {
 })
 
 
-inquirer.prompt([
+const questions = [
     { 
         type: 'list',
         message: "What would you like to do?",
         name: "todos",
         choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     }
-])
+];
+
+inquirer.prompt(questions)
 .then((response) => {
     if(response.todos === 'View All Employees') {
-        db.query('SELECT * FROM employee', function (err, results) {
-            console.table(results);
+        db.query('SELECT * FROM employee', function (err, response) {
+            console.table(response);
         });
     } else if (response.todos === 'View All Roles') {
-        db.query('SELECT * FROM role', function (err, results) {
-            console.table(results);
+        db.query('SELECT * FROM role', function (err, response) {
+            console.table(response);
         });
     } else if (response.todos === 'View All Departments') {
-        db.query('SELECT * FROM department', function (err, results) {
-            console.table(results);
-        }); 
-    } else if (response.todos === 'Add Employee') {
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: "What is the new employee's id?",
-                name: "new_employee_id",
-            },
-            {
-                type: 'input',
-                message: "What is the new employee's first name?",
-                name: "new_employee_first_name",
-            },
-            {
-                type: 'input',
-                message: "What is the new employee's last name?",
-                name: "employee_last_name",
-            },
-            {
-                type: 'input',
-                message: "What is the new employee's role id?",
-                name: "new_employee_role_id",
-            },
-            {
-                type: 'input',
-                message: "What is the new employee manager's id?",
-                name: "new_employee_manager_id",
-            }
-        ]);
-    } else if (response.todos === 'Add Role') {
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: "What is the new role's id?",
-                name: "new_role_id",
-            },
-            {
-                type: 'input',
-                message: "What is the new role's title?",
-                name: "new_role_title",
-            },
-            {
-                type: 'input',
-                message: "What is the new role's salary?",
-                name: "new_role_salary",
-            },
-            {
-                type: 'input',
-                message: "What is the new role's department id?",
-                name: "new_role_department_id",
-            }
-        ]);
-    } else if (response.todos === 'Add Department') {
-        inquirer.prompt([
-            {
-                type: 'input',
-                message: "What is the new department's id?",
-                name: "new_department_id",
-            },
-            {
-                type: 'input',
-                message: "What is the new department's name?",
-                name: "new_department_name",
-            }
-        ]);
+        db.query('SELECT * FROM department', function (err, response) {
+            console.table(response);
+        });
     }
  });
- 
