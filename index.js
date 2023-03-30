@@ -105,33 +105,36 @@ inquirer.prompt(firstQuestion)
     const result = response.todos;
     switch(result) {
         case 'View All Employees':
+            console.log('\n=====================================================================\n');
             db.query('SELECT * FROM employee', function (err, response) {
-            console.table(response)});
+            console.table(response)
+            });
             break;
 
         case 'View All Roles':
+            console.log('\n=====================================================================\n');
             db.query('SELECT * FROM role', function (err, response) {
             console.table(response)
             });
-            // askQuestions();
             break;
 
         case 'View All Departments':
+            console.log('\n=====================================================================\n');
             db.query('SELECT * FROM department', function (err, response) {
             console.table(response)
             });
-            // askQuestions();
             break;
 
         case 'Add Employee':
+            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(employeeQuestions).then((response) => {
             console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`);
             });      
-            // askQuestions();
             break;
         
         case 'Add Role':
+            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(roleQuestions).then((response) => {
                 console.log(`Added ${response.role_name} to the database.`);
@@ -139,6 +142,7 @@ inquirer.prompt(firstQuestion)
             break;
         
         case 'Add Department':
+            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(departmentQuestion).then((response) => {
                 console.log(`Added ${response.department_name} to the database.`);
@@ -146,6 +150,7 @@ inquirer.prompt(firstQuestion)
             break;
         
         case 'Update Employee Role':
+            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(employeeUpdateQuestions).then((response) => {
                 console.log("Updated employee's role.");
@@ -153,11 +158,13 @@ inquirer.prompt(firstQuestion)
             break;
 
         case 'Quit':
+            console.log('\n=====================================================================\n');
             console.log("Goodbye");
             break;
             }            
     
         })
+
 
     };
 
