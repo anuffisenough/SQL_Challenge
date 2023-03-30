@@ -16,7 +16,6 @@ const db = mysql.createConnection(
         password: 'Root',
         database: 'company_db'
     },
-    console.log(`Connected to the classlist_db database.`)
 );
 
 app.use((req, res) => {
@@ -24,28 +23,81 @@ app.use((req, res) => {
 })
 
 
-const questions = [
+// const questions = [
+//     { 
+//         type: 'list',
+//         message: "What would you like to do?",
+//         name: "todos",
+//         choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+//     },
+// ];
+
+
+function toDoQuestions() {
+inquirer.prompt([
     { 
         type: 'list',
         message: "What would you like to do?",
         name: "todos",
         choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
-    }
-];
-
-inquirer.prompt(questions)
+    },
+])
 .then((response) => {
-    if(response.todos === 'View All Employees') {
-        db.query('SELECT * FROM employee', function (err, response) {
-            console.table(response);
-        });
-    } else if (response.todos === 'View All Roles') {
-        db.query('SELECT * FROM role', function (err, response) {
-            console.table(response);
-        });
-    } else if (response.todos === 'View All Departments') {
-        db.query('SELECT * FROM department', function (err, response) {
-            console.table(response);
-        });
-    }
- });
+    const result = response.todos;
+    switch(result) {
+        case 'View All Employees':
+            db.query('SELECT * FROM employee', function (err, response) {
+            console.table(response)});
+            break;
+            // toDoQuestions();
+
+        case 'View All Roles':
+            db.query('SELECT * FROM role', function (err, response) {
+            console.table(response)});
+            break;
+            // toDoQuestions();
+
+        case 'View All Departments':
+            db.query('SELECT * FROM department', function (err, response) {
+            console.table(response)});
+            break;
+            // toDoQuestions();
+
+        case 'View All Roles':
+            db.query('SELECT * FROM role', function (err, response) {
+            console.table(response)});
+            break;
+            // toDoQuestions();
+
+        case 'Quit':
+            console.log("Goodbye");
+        
+        // default: 
+        //     toDoQuestions();
+  
+            }      
+
+  toDoQuestions();
+        })
+        
+    };
+
+    toDoQuestions();
+
+
+    
+// 
+//     case "View All Employess":
+    //      console.table(db.query('SELECT * FROM employee', function (err, response));
+    //     break;
+    // case "View All Roles":
+    //     db.query('SELECT * FROM role', function (err, response) {
+    //     console.table(response);
+    //     });
+    //     break;
+    // case "View All Departments":
+    //     db.query('SELECT * FROM department', function (err, response) {
+    //     console.table(response);
+    //     });
+    //     break;
+    // }
