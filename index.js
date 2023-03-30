@@ -129,6 +129,13 @@ inquirer.prompt(firstQuestion)
             console.log('\n=====================================================================\n');
             inquirer
                 .prompt(employeeQuestions).then((response) => {
+            db.query("INSERT INTO employee SET ?", {
+                first_name: response.employee_first,
+                last_name: response.employee_last,
+                role_id: response.role_id,
+                manager_id: response.manager_id,
+                id: 6
+            })
             console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`);
             });      
             break;
