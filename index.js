@@ -3,6 +3,27 @@ const inquirer = require('inquirer');
 const express = require('express');
 const mysql = require('mysql2');
 
+const { Console } = require('console');
+const { Transform } = require('stream');
+
+function table(input) {
+  const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
+  const logger = new Console({ stdout: ts })
+  logger.table(input)
+  const table = (ts.read() || '').toString()
+  let result = '';
+  for (let row of table.split(/[\r\n]+/)) {
+    let r = row.replace(/[^┬]*┬/, '┌');
+    r = r.replace(/^├─*┼/, '├');
+    r = r.replace(/│[^│]*/, '');
+    r = r.replace(/^└─*┴/, '└');
+    r = r.replace(/'/g, ' ');
+    result += `${r}\n`;
+  }
+  console.log(result);
+}
+
+
 const PORT = 3001;
 const app = express();
 
@@ -105,32 +126,28 @@ inquirer.prompt(firstQuestion)
     if (response.todos !== "Quit") {
     switch(result) {
         case 'View All Employees':
-            console.log('\n=====================================================================\n');
             db.query('SELECT * FROM employee', function (err, response) {
             console.log("\n");
-            console.table(response)    
+            table(response)    
             askQuestions();
             });
             break;
 
         case 'View All Roles':
-            console.log('\n=====================================================================\n');
-            db.query('SELECT * FROM role', function (err, response) {
-            console.table(response)
+             db.query('SELECT * FROM role', function (err, response) {
+            table(response)
             askQuestions();
             });
             break;
 
         case 'View All Departments':
-            console.log('\n=====================================================================\n');
             db.query('SELECT * FROM department', function (err, response) {
-            console.table(response)
+            table(response)
             askQuestions();
             });
             break;
 
         case 'Add Employee':
-            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(employeeQuestions).then((response) => {
             db.query("INSERT INTO employee SET ?", {
@@ -145,7 +162,6 @@ inquirer.prompt(firstQuestion)
             break;
         
         case 'Add Role':
-            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(roleQuestions).then((response) => {
                     db.query("INSERT INTO role SET ?", {
@@ -159,7 +175,6 @@ inquirer.prompt(firstQuestion)
             break;
         
         case 'Add Department':
-            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(departmentQuestion).then((response) => {
                     db.query("INSERT INTO department SET ?", {
@@ -171,7 +186,6 @@ inquirer.prompt(firstQuestion)
             break;
         
         case 'Update Employee Role':
-            console.log('\n=====================================================================\n');
             inquirer
                 .prompt(employeeUpdateQuestions).then((response) => {
                 console.log("Updated employee's role.");
@@ -182,7 +196,6 @@ inquirer.prompt(firstQuestion)
     }
 
 } else {
-            console.log('\n=====================================================================\n');
             console.log("Goodbye");
             }            
             
@@ -191,5 +204,7 @@ inquirer.prompt(firstQuestion)
     };
 
 askQuestions();
+
+
 
 
