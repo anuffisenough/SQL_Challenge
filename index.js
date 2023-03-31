@@ -107,7 +107,9 @@ inquirer.prompt(firstQuestion)
         case 'View All Employees':
             console.log('\n=====================================================================\n');
             db.query('SELECT * FROM employee', function (err, response) {
-            console.table(response)
+            console.log("\n");
+            console.table(response)    
+            askQuestions();
             });
             break;
 
@@ -115,6 +117,7 @@ inquirer.prompt(firstQuestion)
             console.log('\n=====================================================================\n');
             db.query('SELECT * FROM role', function (err, response) {
             console.table(response)
+            askQuestions();
             });
             break;
 
@@ -122,6 +125,7 @@ inquirer.prompt(firstQuestion)
             console.log('\n=====================================================================\n');
             db.query('SELECT * FROM department', function (err, response) {
             console.table(response)
+            askQuestions();
             });
             break;
 
@@ -136,6 +140,7 @@ inquirer.prompt(firstQuestion)
                 manager_id: response.manager_id,
             })
             console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`);
+            askQuestions();
             });      
             break;
         
@@ -149,6 +154,7 @@ inquirer.prompt(firstQuestion)
                         department_id: response.role_department.id,
                     })
                 console.log(`Added ${response.role_name} to the database.`);
+                askQuestions();
             });      
             break;
         
@@ -160,6 +166,7 @@ inquirer.prompt(firstQuestion)
                         name: response.department_name,
                     })
                 console.log(`Added ${response.department_name} to the database.`);
+                askQuestions();
             });      
             break;
         
@@ -168,11 +175,12 @@ inquirer.prompt(firstQuestion)
             inquirer
                 .prompt(employeeUpdateQuestions).then((response) => {
                 console.log("Updated employee's role.");
+                askQuestions();
             });      
             break;
 
     }
-    askQuestions();
+
 } else {
             console.log('\n=====================================================================\n');
             console.log("Goodbye");
