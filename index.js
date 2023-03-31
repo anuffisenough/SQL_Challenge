@@ -102,6 +102,7 @@ function askQuestions() {
 inquirer.prompt(firstQuestion)
 .then((response) => {
     const result = response.todos;
+    if (response.todos !== "Quit") {
     switch(result) {
         case 'View All Employees':
             console.log('\n=====================================================================\n');
@@ -170,10 +171,11 @@ inquirer.prompt(firstQuestion)
             });      
             break;
 
-        case 'Quit':
+    }
+    askQuestions();
+} else {
             console.log('\n=====================================================================\n');
             console.log("Goodbye");
-            break;
             }            
             
         })
