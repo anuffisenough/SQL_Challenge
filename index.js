@@ -20,8 +20,7 @@ const db = mysql.createConnection(
 
 app.use((req, res) => {
     res.status(404).end();
-})
-
+});
 
 const firstQuestion = [
     { 
@@ -61,7 +60,7 @@ const roleQuestions = [
     { 
         type: 'input',
         message: "What is the name of the role?",
-        name: "role_name",
+        name: "role_title",
     },
     {
         type: 'input',
@@ -134,7 +133,6 @@ inquirer.prompt(firstQuestion)
                 last_name: response.employee_last,
                 role_id: response.role_id,
                 manager_id: response.manager_id,
-                id: 6
             })
             console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`);
             });      
@@ -144,6 +142,11 @@ inquirer.prompt(firstQuestion)
             console.log('\n=====================================================================\n');
             inquirer
                 .prompt(roleQuestions).then((response) => {
+                    db.query("INSERT INTO role SET ?", {
+                        title: response.role_title,
+                        salary: response.role_salary,
+                        department_id: response.role_department.id,
+                    })
                 console.log(`Added ${response.role_name} to the database.`);
             });      
             break;
@@ -152,6 +155,9 @@ inquirer.prompt(firstQuestion)
             console.log('\n=====================================================================\n');
             inquirer
                 .prompt(departmentQuestion).then((response) => {
+                    db.query("INSERT INTO department SET ?", {
+                        name: response.department_name,
+                    })
                 console.log(`Added ${response.department_name} to the database.`);
             });      
             break;
@@ -169,11 +175,11 @@ inquirer.prompt(firstQuestion)
             console.log("Goodbye");
             break;
             }            
-    
+            
         })
-
 
     };
 
 askQuestions();
+
 
