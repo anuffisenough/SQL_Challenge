@@ -101,6 +101,64 @@ const employeeUpdateQuestions = [
     }
 ];
 
+function askEmployeeQuestions() {
+    const allRoleTitles = [];
+    db.query('SELECT title FROM role', function (err, response) {
+        const roleTitles = response;
+        for(i = 0; i < roleTitles.length; i++) {
+        allRoleTitles.push(roleTitles[i].title)}
+    })
+    inquirer
+        .prompt([employeeQuestions[0], employeeQuestions[1], { 
+            type: 'list',
+            message: "What is the employee's role?",
+            name: "employee_role",
+            choices: allRoleTitles
+        },
+        { 
+            type: 'list',
+            message: "Who is the employee's manager?",
+            name: "employee_manager",
+            choices: ['test manager 1', 'test manager 2', 'test manager 3', 'test manager 4']
+        }
+    ]).then((response) => {
+    db.query("INSERT INTO employee SET ?", {
+        first_name: response.employee_first,
+        last_name: response.employee_last,
+        role_id: response.role_id,
+        manager_id: response.manager_id,
+    })
+    console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`)
+    askQuestions();
+    }); 
+}; 
+
+function askRoleQuestions() {
+    const allDepartmentNames = [];
+            db.query('SELECT name FROM department', function (err, response) {
+                const departmentNames = response;
+                for(i = 0; i < departmentNames.length; i++) {
+                allDepartmentNames.push(departmentNames[i].name)}
+            })
+            inquirer.prompt([roleQuestions[0], roleQuestions[1],
+                { 
+                    type: 'list',
+                    message: "What department does the role belong to?",
+                    name: "role_department",
+                    choices: allDepartmentNames
+                }
+            ]).then((response) => {
+                db.query("INSERT INTO role SET ?", {
+                    title: response.role_title,
+                    salary: response.role_salary,
+                    department_id: response.role_department,
+                })
+                console.log(`Added ${response.role_title} to the database.`)
+                askQuestions();
+            });
+
+};
+
 function askQuestions() {
 inquirer.prompt(firstQuestion)
 .then((response) => {
@@ -130,60 +188,11 @@ inquirer.prompt(firstQuestion)
             break;
 
         case 'Add Employee':
-            const allRoleTitles = [];
-            db.query('SELECT title FROM role', function (err, response) {
-                const roleTitles = response;
-                for(i = 0; i < roleTitles.length; i++) {
-                allRoleTitles.push(roleTitles[i].title)}
-            })
-            inquirer
-                .prompt([employeeQuestions[0], employeeQuestions[1], { 
-                    type: 'list',
-                    message: "What is the employee's role?",
-                    name: "employee_role",
-                    choices: allRoleTitles
-                },
-                { 
-                    type: 'list',
-                    message: "Who is the employee's manager?",
-                    name: "employee_manager",
-                    choices: ['test manager 1', 'test manager 2', 'test manager 3', 'test manager 4']
-                }
-            ]).then((response) => {
-            db.query("INSERT INTO employee SET ?", {
-                first_name: response.employee_first,
-                last_name: response.employee_last,
-                role_id: response.role_id,
-                manager_id: response.manager_id,
-            })
-            console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`)
-            askQuestions();
-            });      
+            askEmployeeQuestions();
             break;
         
         case 'Add Role':
-            const allDepartmentNames = [];
-            db.query('SELECT name FROM department', function (err, response) {
-                const departmentNames = response;
-                for(i = 0; i < departmentNames.length; i++) {
-                allDepartmentNames.push(departmentNames[i].name)}
-            })
-            inquirer.prompt([roleQuestions[0], roleQuestions[1],
-                { 
-                    type: 'list',
-                    message: "What department does the role belong to?",
-                    name: "role_department",
-                    choices: allDepartmentNames
-                }
-            ]).then((response) => {
-                db.query("INSERT INTO role SET ?", {
-                    title: response.role_title,
-                    salary: response.role_salary,
-                    department_id: response.role_department,
-                })
-                console.log(`Added ${response.role_title} to the database.`)
-                askQuestions();
-            });
+            askRoleQuestions();
             break;
         
         case 'Add Department':
