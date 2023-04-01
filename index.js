@@ -125,8 +125,8 @@ function askEmployeeQuestions() {
     db.query("INSERT INTO employee SET ?", {
         first_name: response.employee_first,
         last_name: response.employee_last,
-        // role_id: response.employee_role,
-        // manager_id: response.employee_manager,
+        // role_id: response.role_id,
+        // manager_id: response.manager_id,
     })
     console.log(`Added ${response.employee_first} ${response.employee_last} to the database.`)
     askQuestions();
