@@ -1,0 +1,36 @@
+# 12 SQL Challenge: Employee Tracker
+
+## Description
+
+-This project is a command line program that allows Users to manage their company data using Inquirer prompts. The inquirer question prompts are wrapped in call functions, and the sequencing of questions is set-up with a switch layout.
+
+-Upon starting the application, the User is given options to "View All Employees," "View All Roles," "View All Departments," "Add Employee," "Add Role," "Add Department," "Update Employee Role," or "Quit."
+
+-Selecting "View All Employees" prints a formatted table of all employees, rendered by using a db.query to select all employee names from company_db. The User is then presented with the initial options list.
+
+-Selecting "View All Roles" prints a formatted table of all roles, rendered by using a db.query to select all role titles from company_db. The User is then presented with the initial options list.
+
+-Selecting "View All Departments" prints a formatted table of all departments, rendered by using a db.query to select all department names from company_db. The User is then presented with the initial options list.
+
+-Selecting "Add Employee" presents the User with prompts for the employee's first and last name. The next question generates a list of all current roles, rendered by using a db.query for all titles in the role table. The User selects which role to assign the employee to. The User will then select a Manager to assign the employee to. Upon completion of these prompts, a new employee is added to the employee table, and can be seen using the "View All Employees" option.
+
+-Selecting "Add Role" presents the User with prompts for the role title and salary. The next question generates a list of all current departments, rendered by using a db.query for all names in the department table. The User selects which department to assign the role to. The User will then select a Manager to assign the employee to. Upon completion of these prompts, a new role is added to the role table, and can be seen using the "View All Roles" option.
+
+-Selecting "Add Department" presents the User with prompts for the department name, which is then added to the department table, and can be seen using the "View All Departments" option.
+
+-The "Update Employee Role" function is not yet functional.
+
+
+## Usage
+
+This application is not deployed live.
+
+### Walkthrough
+git s
+![Application Walkthrough](/public/assets/ExpressjsChallengeHP.png)
+
+### Credits
+
+[MDN Web Docs](https://developer.mozilla.org/en-US/)
+
+[Stack Overflow, Index Column Removal Function](https://stackoverflow.com/questions/49618069/remove-index-from-console-table)

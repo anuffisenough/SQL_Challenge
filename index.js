@@ -48,7 +48,7 @@ const firstQuestion = [
         type: 'list',
         message: "What would you like to do?",
         name: "todos",
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+        choices: ['View All Employees', 'View All Roles', 'View All Departments', 'Add Employee', 'Add Role', 'Add Department', 'Update Employee Role', 'Quit']
     }
 ];
 
