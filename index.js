@@ -6,6 +6,9 @@ const mysql = require('mysql2');
 const { Console } = require('console');
 const { Transform } = require('stream');
 
+//////////////////////////////////////////////////////////////////////////////
+//  function to remove index column from printed table, via Stack Overflow  //
+//////////////////////////////////////////////////////////////////////////////
 function table(input) {
   const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
   const logger = new Console({ stdout: ts })
@@ -22,7 +25,8 @@ function table(input) {
   }
   console.log(result);
 }
-
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 const PORT = 3001;
 const app = express();
