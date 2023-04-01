@@ -85,14 +85,8 @@ const roleQuestions = [
     },
     {
         type: 'input',
-        message: 'What is the salaray of the role?',
+        message: 'What is the salary of the role?',
         name: "role_salary",
-    },
-    { 
-        type: 'list',
-        message: "What department does the role belong to?",
-        name: "role_department",
-        choices: ['test dept 1', 'test dept 2', 'test dept 3', 'test dept 4']
     }
 ];
 
@@ -128,6 +122,7 @@ inquirer.prompt(firstQuestion)
         case 'View All Employees':
             db.query('SELECT * FROM employee', function (err, response) {
             console.log("\n");
+
             table(response)    
             askQuestions();
             });
@@ -162,16 +157,33 @@ inquirer.prompt(firstQuestion)
             break;
         
         case 'Add Role':
-            inquirer
-                .prompt(roleQuestions).then((response) => {
-                    db.query("INSERT INTO role SET ?", {
-                        title: response.role_title,
-                        salary: response.role_salary,
-                        department_id: response.role_department.id,
-                    })
-                console.log(`Added ${response.role_name} to the database.`);
+            const allDepartmentNames = [];
+            db.query('SELECT name FROM department', function (err, response) {
+                
+                const departmentNames = response;
+                for(i = 0; i < departmentNames.length; i++) {
+                allDepartmentNames.push(departmentNames[i].name)}
+                // console.log(allDepartmentNames);
+
+                // allDepartmentNames.push(departmentName);
+                // console.log(allDepartmentNames)
+            })
+            inquirer.prompt([roleQuestions[0], roleQuestions[1],
+                { 
+                    type: 'list',
+                    message: "What department does the role belong to?",
+                    name: "role_department",
+                    choices: allDepartmentNames
+                }
+            ]).then((response) => {
+                db.query("INSERT INTO role SET ?", {
+                    title: response.role_title,
+                    salary: response.role_salary,
+                    department_id: response.role_department
+                })
+                console.log(`Added ${response.role_title} to the database.`);
                 askQuestions();
-            });      
+            });
             break;
         
         case 'Add Department':
